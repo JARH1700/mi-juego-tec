@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+  <title>Juego amorcito</title>
+  <style>
+    :root {
+      --primary: #ff85a2;
+      --secondary: #ffb6c1;
+      --accent: #fdcae1;
+      --background: #fff0f5;
+      --text: #555;
+      --correct: #a8e6cf;
+      --incorrect: #ffaaa5;
+    }
+    
+    body {
+      font-family: 'Arial Rounded MT Bold', 'Arial', sans-serif;
+      background-color: var(--background);
+      padding: 1rem;
+      max-width: 800px;
+      margin: 0 auto;
+      color: var(--text);
+    }
+
+     h1 {
+      text-align: center;
+      color: #d35858;
+      font-family: "Press Start 2P", system-ui;
+      font-size: 1.2rem;
+      margin-bottom: 2rem;
+    }
+
+    .quiz-container {
+      background: white;
+      padding: 2rem;
+      border-radius: 20px;
+      box-shadow: 0 8px 20px rgba(210, 93, 110, 0.15);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .quiz-container::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 10px;
+      background: linear-gradient(90deg, var(--primary), var(--accent));
+    }
+
+    .description {
+      font-size: 1.3rem;
+      margin: 1.5rem 0;
+      padding: 1.5rem;
+      background-color: #fff9fb;
+      border-radius: 15px;
+      border-left: 5px solid var(--primary);
+      line-height: 1.5;
+      min-height: 100px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+    }
+
+    .options-container {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1rem;
+      margin: 2rem 0;
+    }
+
+    .option-btn {
+      padding: 1rem;
+      font-size: 1.2rem;
+      border: none;
+      border-radius: 12px;
+      background-color: var(--secondary);
+      color: white;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 8px rgba(210, 93, 110, 0.1);
+      font-weight: bold;
+    }
+
+    .option-btn:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 6px 12px rgba(210, 93, 110, 0.2);
+      background-color: var(--primary);
+    }
+
+    .option-btn:active {
+      transform: translateY(1px);
+    }
+
+    .result {
+      margin-top: 1.5rem;
+      padding: 1rem;
+      border-radius: 10px;
+      text-align: center;
+      font-size: 1.3rem;
+      font-weight: bold;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      min-height: 60px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .result.show {
+      opacity: 1;
+    }
+
+    .correct {
+      background-color: var(--correct);
+      color: #2e7d32;
+    }
+
+    .incorrect {
+      background-color: var(--incorrect);
+      color: #c62828;
+    }
+
+    .score-container {
+      text-align: center;
+      margin-top: 1rem;
+      font-size: 1.2rem;
+      color: var(--primary);
+    }
+
+    .progress-container {
+      width: 100%;
+      height: 8px;
+      background-color: #f5f5f5;
+      border-radius: 4px;
+      margin: 1rem 0;
+      overflow: hidden;
+    }
+
+    .progress-bar {
+      height: 100%;
+      background: linear-gradient(90deg, var(--primary), var(--accent));
+      width: 0%;
+      transition: width 0.5s ease;
+    }
+
+    .confetti {
+      position: absolute;
+      width: 10px;
+      height: 10px;
+      background-color: var(--primary);
+      opacity: 0;
+    }
+
+    @media (max-width: 600px) {
+      .options-container {
+        grid-template-columns: repeat(3, 1fr);
+      }
+      
+      .description {
+        font-size: 1.1rem;
+        padding: 1rem;
+      }
+      
+      .quiz-container {
+        padding: 1.5rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Quiz Capítulos LIGIE para mi niña</h1>
+
+  <div class="quiz-container">
+    <div class="progress-container">
+      <div class="progress-bar" id="progressBar"></div>
+    </div>
+    
+    <div class="description" id="description">Cargando descripción...</div>
+    
+    <div class="options-container" id="optionsContainer">
+      <!-- Las opciones se generarán dinámicamente -->
+    </div>
+    
+    <div class="result" id="result"></div>
+    
+    <div class="score-container">
+      Puntuación: <span id="score">0</span> / <span id="total">0</span>
+    </div>
+  </div>
+    <audio id="correctSound" preload="auto">
+     <source src="https://assets.mixkit.co/sfx/preview/mixkit-achievement-bell-600.mp3" type="audio/mpeg">
+    </audio>
+    <audio id="incorrectSound" preload="auto">
+      <source src="https://assets.mixkit.co/sfx/preview/mixkit-wrong-answer-fail-notification-946.mp3" type="audio/mpeg">
+    </audio>
+    <audio id="winSound" preload="auto">
+      <source src="https://assets.mixkit.co/sfx/preview/mixkit-achievement-bell-600.mp3" type="audio/mpeg">
+    </audio>
+  <script>
+        const chapters = [
+      { "num": 1, "desc": "Animales vivos" },
+      { "num": 2, "desc": "Carne y despojos comestibles" },
+      { "num": 3, "desc": "Pescados y crustáceos, moluscos y demás invertebrados acuáticos" },
+      { "num": 4, "desc": "Leche y productos lácteos; huevos de ave; miel natural; productos comestibles de origen animal, no expresados ni comprendidos en otra parte" },
+      { "num": 5, "desc": "Los demás productos de origen animal no expresados ni comprendidos en otra parte" },
+      { "num": 6, "desc": "Plantas vivas y productos de la floricultura" },
+      { "num": 7, "desc": "Hortalizas, plantas, raíces y tubérculos alimenticios" },
+      { "num": 8, "desc": "Frutas y frutos comestibles; cortezas de agrios (cítricos), melones o sandías" },
+      { "num": 9, "desc": "Café, té, yerba mate y especias" },
+      { "num": 10, "desc": "Cereales" },
+      { "num": 11, "desc": "Productos de la molinería; malta; almidón y fécula; inulina; gluten de trigo" },
+      { "num": 12, "desc": "Semillas y frutos oleaginosos; semillas y frutos diversos; plantas industriales o medicinales; paja y forraje" },
+      { "num": 13, "desc": "Gomas, resinas y demás jugos y extractos vegetales" },
+      { "num": 14, "desc": "Materias trenzables y demás productos de origen vegetal, no expresados ni comprendidos en otra parte" },
+      { "num": 15, "desc": "Grasas y aceites animales o vegetales; productos de su desdoblamiento; grasas alimenticias elaboradas; ceras de origen animal o vegetal" },
+      { "num": 16, "desc": "Preparaciones de carne, pescado o de crustáceos, moluscos o demás invertebrados acuáticos" },
+      { "num": 17, "desc": "Azúcares y artículos de confitería" },
+      { "num": 18, "desc": "Cacao y sus preparaciones" },
+      { "num": 19, "desc": "Preparaciones a base de cereales, harina, almidón, fécula o leche; productos de pastelería" },
+      { "num": 20, "desc": "Preparaciones de hortalizas, frutas u otros frutos o demás partes de plantas" },
+      { "num": 21, "desc": "Preparaciones alimenticias diversas" },
+      { "num": 22, "desc": "Bebidas, líquidos alcohólicos y vinagre" },
+      { "num": 23, "desc": "Residuos y desperdicios de las industrias alimentarias; alimentos preparados para animales" },
+      { "num": 24, "desc": "Tabaco y sucedáneos del tabaco elaborados" },
+      { "num": 25, "desc": "Sal; azufre; tierras y piedras; yesos, cales y cementos" },
+      { "num": 26, "desc": "Minerales metalíferos, escorias y cenizas" },
+      { "num": 27, "desc": "Combustibles minerales, aceites minerales y productos de su destilación; materias bituminosas; ceras minerales" },
+      { "num": 28, "desc": "Productos químicos inorgánicos; compuestos inorgánicos u orgánicos de metales preciosos, de elementos radiactivos, de metales de las tierras raras o de isótopos" },
+      { "num": 29, "desc": "Productos químicos orgánicos" },
+      { "num": 30, "desc": "Productos farmacéuticos" },
+      { "num": 31, "desc": "Abonos" },
+      { "num": 32, "desc": "Extractos curtientes o tintóreos; taninos y sus derivados; pigmentos y demás materias colorantes; pinturas y barnices; masillas; tintas" },
+      { "num": 33, "desc": "Aceites esenciales y resinoides; preparaciones de perfumería, de tocador o de cosmética" },
+      { "num": 34, "desc": "Jabón, agentes de superficie orgánicos, preparaciones para lavar, preparaciones lubricantes, ceras artificiales, ceras preparadas, productos para pulir o limpiar, velas y artículos similares, pastas para modelar, 'ceras para odontología' y preparaciones para odontología" },
+      { "num": 35, "desc": "Materias albuminoideas; productos a base de almidón o de fécula modificados; colas; enzimas" },
+      { "num": 36, "desc": "Pólvoras y explosivos; artículos de pirotecnia; fósforos (cerillos); aleaciones pirofóricas; materias inflamables" },
+      { "num": 37, "desc": "Productos fotográficos o cinematográficos" },
+      { "num": 38, "desc": "Productos diversos de las industrias químicas" },
+      { "num": 39, "desc": "Plásticos y sus manufacturas" },
+      { "num": 40, "desc": "Caucho y sus manufacturas" },
+      { "num": 41, "desc": "Pieles (excepto la peletería) y cueros" },
+      { "num": 42, "desc": "Manufacturas de cuero; artículos de talabartería o guarnicionería; artículos de viaje, bolsos de mano y continentes similares; manufacturas de tripa" },
+      { "num": 43, "desc": "—" },
+      { "num": 44, "desc": "Madera, carbón vegetal y manufacturas de madera" },
+      { "num": 45, "desc": "Corcho y sus manufacturas" },
+      { "num": 46, "desc": "Manufacturas de espartería o cestería" },
+      { "num": 47, "desc": "Pasta de madera o de otras materias fibrosas celulósicas; papel o cartón para reciclar (desperdicios y desechos)" },
+      { "num": 48, "desc": "Papel y cartón; manufacturas de pasta de celulosa, de papel o cartón" },
+      { "num": 49, "desc": "Productos editoriales, de la prensa y de otras industrias gráficas; textos manuscritos o mecanografiados y planos" },
+      { "num": 50, "desc": "Seda" },
+      { "num": 51, "desc": "Lana y pelo fino u ordinario; hilados y tejidos de crin" },
+      { "num": 52, "desc": "Algodón" },
+      { "num": 53, "desc": "Las demás fibras textiles vegetales; hilados de papel y tejidos de hilados de papel" },
+      { "num": 54, "desc": "Filamentos sintéticos o artificiales" },
+      { "num": 55, "desc": "Fibras sintéticas o artificiales discontinuas" },
+      { "num": 56, "desc": "Guata, fieltro y tela sin tejer; hilados especiales; cordeles, cuerdas y cordajes; artículos de cordelería" },
+      { "num": 57, "desc": "Alfombras y demás revestimientos textiles para el suelo" },
+      { "num": 58, "desc": "Tejidos especiales; superficies textiles con mechón insertado; encajes; tapicerías; pasamanería" },
+      { "num": 59, "desc": "Tejidos impregnados, recubiertos, revestidos o estratificados; artículos técnicos de materia textil" },
+      { "num": 60, "desc": "Tejidos de punto" },
+      { "num": 61, "desc": "Prendas y complementos (accesorios), de vestir, de punto" },
+      { "num": 62, "desc": "Prendas y complementos (accesorios), de vestir, excepto los de punto" },
+      { "num": 63, "desc": "Los demás artículos textiles confeccionados; juegos; prendería y trapos" },
+      { "num": 64, "desc": "Calzado, polainas y artículos análogos; partes de estos artículos" },
+      { "num": 65, "desc": "Sombreros y demás tocados, y sus partes" },
+      { "num": 66, "desc": "Paraguas, sombrillas, quitasoles, bastones, bastones asiento, látigos, fustas y sus partes" },
+      { "num": 67, "desc": "Plumas y plumón preparados y artículos de plumas o de plumón; flores artificiales; manufacturas de cabello" },
+      { "num": 68, "desc": "Manufacturas de piedra, yeso, cemento, amianto, mica o materias análogas" },
+      { "num": 69, "desc": "Productos cerámicos" },
+      { "num": 70, "desc": "Vidrio y sus manufacturas" },
+      { "num": 71, "desc": "Perlas naturales o cultivadas, piedras preciosas o semipreciosas, metales preciosos, chapados de metal precioso y manufacturas de estas materias; bisutería; monedas" },
+      { "num": 72, "desc": "Fundición, hierro y acero" },
+      { "num": 73, "desc": "Manufacturas de fundición, hierro o acero" },
+      { "num": 74, "desc": "Cobre y sus manufacturas" },
+      { "num": 75, "desc": "Níquel y sus manufacturas" },
+      { "num": 76, "desc": "Aluminio y sus manufacturas" },
+      { "num": 77, "desc": "(Reservado para una futura utilización en el Sistema Armonizado)" },
+      { "num": 78, "desc": "Plomo y sus manufacturas" },
+      { "num": 79, "desc": "Cinc y sus manufacturas" },
+      { "num": 80, "desc": "Estaño y sus manufacturas" },
+      { "num": 81, "desc": "Los demás metales comunes; cermets; manufacturas de estas materias" },
+      { "num": 82, "desc": "Herramientas y útiles, artículos de cuchillería y cubiertos de mesa, de metales comunes; partes de estos artículos" },
+      { "num": 83, "desc": "Manufacturas diversas de metales comunes" },
+      { "num": 84, "desc": "Reactores nucleares, calderas, máquinas, aparatos y artefactos mecánicos; partes de estas máquinas o aparatos" },
+      { "num": 85, "desc": "Máquinas, aparatos y material eléctrico, y sus partes; aparatos de grabación o reproducción de sonido, de imagen y sonido en televisión, y las partes y accesorios de estos aparatos" },
+      { "num": 86, "desc": "Vehículos y material para vías férreas o similares, y sus partes; aparatos mecánicos (incluidas las electromecánicas) de señalización para vías de comunicación" },
+      { "num": 87, "desc": "Vehículos automóviles, tractores, velocípedos y demás vehículos terrestres; sus partes y accesorios" },
+      { "num": 88, "desc": "Aeronaves, vehículos espaciales y sus partes" },
+      { "num": 89, "desc": "Barcos y demás artefactos flotantes" },
+      { "num": 90, "desc": "Instrumentos y aparatos de óptica, fotografía o cinematografía, de medida, control o precisión; instrumentos y aparatos médico-quirúrgicos; partes y accesorios de estos instrumentos o aparatos" }
+    ];
+    let currentIndex;
+    let score = 0;
+    let questionsAnswered = 0;
+    const totalQuestions = 10;
+    
+    const descriptionElement = document.getElementById('description');
+    const resultElement = document.getElementById('result');
+    const optionsContainer = document.getElementById('optionsContainer');
+    const scoreElement = document.getElementById('score');
+    const totalElement = document.getElementById('total');
+    const progressBar = document.getElementById('progressBar');
+    
+    // Elementos de audio
+    const correctSound = document.getElementById('correctSound');
+    const incorrectSound = document.getElementById('incorrectSound');
+    const winSound = document.getElementById('winSound');
+
+    totalElement.textContent = totalQuestions;
+
+    function loadQuestion() {
+      currentIndex = Math.floor(Math.random() * chapters.length);
+      descriptionElement.textContent = chapters[currentIndex].desc;
+      resultElement.textContent = "";
+      resultElement.className = "result";
+      
+      const correctOption = chapters[currentIndex].num;
+      let options = [correctOption];
+      
+      while(options.length < 3) {
+        const randomChapter = chapters[Math.floor(Math.random() * chapters.length)].num;
+        if(!options.includes(randomChapter)) {
+          options.push(randomChapter);
+        }
+      }
+      
+      options = shuffleArray(options);
+      
+      optionsContainer.innerHTML = "";
+      options.forEach(option => {
+        const button = document.createElement('button');
+        button.className = 'option-btn';
+        button.textContent = option;
+        button.onclick = () => checkAnswer(option);
+        optionsContainer.appendChild(button);
+      });
+    }
+
+    function checkAnswer(selectedOption) {
+      const correctOption = chapters[currentIndex].num;
+      questionsAnswered++;
+      updateProgress();
+      
+      if (selectedOption === correctOption) {
+        score++;
+        scoreElement.textContent = score;
+        resultElement.textContent = "¡Correcto! 🎉";
+        resultElement.className = "result show correct";
+        correctSound.currentTime = 0;
+        correctSound.play();
+        createConfetti();
+      } else {
+        resultElement.textContent = `❌ Incorrecto. La respuesta correcta era ${correctOption}.`;
+        resultElement.className = "result show incorrect";
+        incorrectSound.currentTime = 0;
+        incorrectSound.play();
+      }
+      
+      const buttons = document.querySelectorAll('.option-btn');
+      buttons.forEach(button => {
+        button.disabled = true;
+        if(parseInt(button.textContent) === correctOption) {
+          button.style.backgroundColor = "#a8e6cf";
+        }
+      });
+      
+      if(questionsAnswered < totalQuestions) {
+        setTimeout(loadQuestion, 1500);
+      } else {
+        setTimeout(showFinalScore, 1500);
+      }
+    }
+    
+    function updateProgress() {
+      const progress = (questionsAnswered / totalQuestions) * 100;
+      progressBar.style.width = `${progress}%`;
+    }
+    
+    function showFinalScore() {
+      descriptionElement.textContent = `¡Quiz completado!`;
+      optionsContainer.innerHTML = "";
+      resultElement.textContent = `Obtuviste ${score} de ${totalQuestions} respuestas correctas.`;
+      resultElement.className = "result show";
+      
+      if(score === totalQuestions) {
+        resultElement.textContent += " ¡Perfecto! mi amorcito 🤓👆";
+        winSound.currentTime = 0;
+        winSound.play();
+        createConfetti();
+      } else if(score >= totalQuestions * 0.7) {
+        resultElement.textContent += " Esta orgulloza nun de ti";
+      } else {
+        resultElement.textContent += " Sigue practicando por que no le sabeeeee ";
+      }
+      
+      const restartBtn = document.createElement('button');
+      restartBtn.className = 'option-btn';
+      restartBtn.textContent = 'Jugar de nuevo';
+      restartBtn.style.margin = '1rem auto';
+      restartBtn.style.display = 'block';
+      restartBtn.style.width = '200px';
+      restartBtn.onclick = restartQuiz;
+      optionsContainer.appendChild(restartBtn);
+    }
+    
+    function restartQuiz() {
+      score = 0;
+      questionsAnswered = 0;
+      scoreElement.textContent = score;
+      progressBar.style.width = "0%";
+      loadQuestion();
+    }
+    
+    function createConfetti() {
+      for(let i = 0; i < 50; i++) {
+        const confetti = document.createElement('div');
+        confetti.className = 'confetti';
+        confetti.style.left = Math.random() * 100 + '%';
+        confetti.style.top = -10 + 'px';
+        confetti.style.backgroundColor = getRandomColor();
+        confetti.style.width = Math.random() * 10 + 5 + 'px';
+        confetti.style.height = Math.random() * 10 + 5 + 'px';
+        document.querySelector('.quiz-container').appendChild(confetti);
+        
+        animateConfetti(confetti);
+      }
+    }
+    
+    function animateConfetti(element) {
+      const angle = Math.random() * Math.PI * 2;
+      const velocity = 5 + Math.random() * 5;
+      const rotation = Math.random() * 360;
+      const rotationSpeed = (Math.random() - 0.5) * 20;
+      
+      let posX = parseFloat(element.style.left);
+      let posY = -10;
+      let opacity = 1;
+      let rotationCurrent = rotation;
+      
+      element.style.opacity = 1;
+      
+      const fall = setInterval(() => {
+        posX += Math.cos(angle) * 0.5;
+        posY += velocity * 0.1;
+        rotationCurrent += rotationSpeed;
+        opacity -= 0.01;
+        
+        element.style.left = posX + '%';
+        element.style.top = posY + 'px';
+        element.style.transform = `rotate(${rotationCurrent}deg)`;
+        element.style.opacity = opacity;
+        
+        if(posY > window.innerHeight || opacity <= 0) {
+          clearInterval(fall);
+          element.remove();
+        }
+      }, 30);
+    }
+    
+    function getRandomColor() {
+      const colors = ['#ff85a2', '#ffb6c1', '#fdcae1', '#a8e6cf', '#dcedc1', '#ffd3b6'];
+      return colors[Math.floor(Math.random() * colors.length)];
+    }
+    
+    function shuffleArray(array) {
+      for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+      }
+      return array;
+    }
+
+    // Iniciar el quiz
+    loadQuestion();
+  </script>
+</body>
+</html>
