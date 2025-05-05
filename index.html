@@ -6,7 +6,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
-  <title>Juego amorcito</title>
+  <title>Juego </title>
   <style>
     :root {
       --primary: #ff85a2;
@@ -177,7 +177,7 @@
 </head>
 <body>
 
-  <h1>Quiz Capítulos LIGIE para mi niña</h1>
+  <h1>Quiz Capítulos LIGIE </h1>
 
   <div class="quiz-container">
     <div class="progress-container">
@@ -392,14 +392,14 @@
       resultElement.className = "result show";
       
       if(score === totalQuestions) {
-        resultElement.textContent += " ¡Perfecto! mi amorcito 🤓👆";
+        resultElement.textContent += " ¡Perfecto! 🤓👆";
         winSound.currentTime = 0;
         winSound.play();
         createConfetti();
       } else if(score >= totalQuestions * 0.7) {
-        resultElement.textContent += " Esta orgulloza nun de ti";
+        resultElement.textContent += " Bien hecho";
       } else {
-        resultElement.textContent += " Sigue practicando por que no le sabeeeee ";
+        resultElement.textContent += " Sigue practicando por que no le sabeeeees ";
       }
       
       const restartBtn = document.createElement('button');
