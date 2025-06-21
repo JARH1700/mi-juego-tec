@@ -43,7 +43,7 @@ function openCarta(numero) {
     setTimeout(() => {
         carta.style.transform = "rotateY(0deg) scale(1)";
         carta.style.opacity = "1";
-        window.location.href = `cartas/carta${numero}.png`;
+        window.location.href = `carta${numero}.png`;
     }, 800);
 }
 
