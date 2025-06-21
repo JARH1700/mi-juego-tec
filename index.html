@@ -3,586 +3,129 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Nuestra Historia de Amor</title>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Montserrat:wght@300;400;500&display=swap" rel="stylesheet">
+    <title>Nuestro Amor | Desde el 20/10/2024</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
-    <style>
-        :root {
-            --blush: #E8C4C4;
-            --dark-blush: #B38B8B;
-            --cream: #FFF9F5;
-            --gold: #D4AF37;
-            --brown: #5E4A42;
-            --light-brown: #7A6A5F;
-        }
-        
-        /* Estilos base */
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
-        
-        body {
-            font-family: 'Montserrat', sans-serif;
-            background-color: var(--cream);
-            color: var(--brown);
-            background-image: url('https://www.transparenttextures.com/patterns/cream-paper.png');
-            overflow-x: hidden;
-        }
-        
-        /* Encabezado */
-        .header {
-            text-align: center;
-            padding: 40px 20px;
-            position: relative;
-            overflow: hidden;
-        }
-        
-        .header h1 {
-            font-family: 'Playfair Display', serif;
-            font-size: clamp(2rem, 6vw, 3.5rem);
-            color: var(--dark-blush);
-            margin-bottom: 15px;
-            position: relative;
-            display: inline-block;
-            opacity: 0;
-            transform: translateY(20px);
-            animation: fadeInUp 1s 0.3s forwards;
-        }
-        
-        .header p.subtitle {
-            font-size: clamp(1rem, 3vw, 1.2rem);
-            color: var(--light-brown);
-            max-width: 600px;
-            margin: 0 auto;
-            opacity: 0;
-            transform: translateY(20px);
-            animation: fadeInUp 1s 0.5s forwards;
-        }
-        
-        .header::after {
-            content: '';
-            position: absolute;
-            width: 150px;
-            height: 2px;
-            background: linear-gradient(90deg, transparent, var(--blush), transparent);
-            bottom: 30px;
-            left: 50%;
-            transform: translateX(-50%);
-            opacity: 0;
-            animation: fadeIn 1s 1s forwards;
-        }
-        
-        /* Línea de tiempo */
-        .timeline {
-            position: relative;
-            max-width: 1000px;
-            margin: 0 auto;
-            padding: 40px 20px;
-        }
-        
-        .timeline::before {
-            content: '';
-            position: absolute;
-            width: 3px;
-            background: linear-gradient(to bottom, var(--cream), var(--blush), var(--cream));
-            top: 0;
-            bottom: 0;
-            left: 50%;
-            transform: translateX(-50%);
-            z-index: 1;
-            box-shadow: 0 0 15px rgba(179, 139, 139, 0.2);
-        }
-        
-        /* Eventos */
-        .event {
-            position: relative;
-            width: 100%;
-            padding: 0 0 40px 0;
-            opacity: 0;
-        }
-        
-        .event.animate {
-            animation: fadeInUp 0.8s forwards;
-        }
-        
-        .event:nth-child(odd) {
-            padding-right: calc(50% + 30px);
-            text-align: right;
-        }
-        
-        .event:nth-child(even) {
-            padding-left: calc(50% + 30px);
-            text-align: left;
-        }
-        
-        .event-content {
-            background: white;
-            border-radius: 12px;
-            padding: 25px;
-            box-shadow: 0 5px 25px rgba(179, 139, 139, 0.1);
-            position: relative;
-            cursor: pointer;
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            border: 1px solid rgba(232, 196, 196, 0.3);
-            transform: scale(0.98);
-        }
-        
-        .event-content:hover {
-            transform: scale(1.02);
-            box-shadow: 0 8px 30px rgba(179, 139, 139, 0.2);
-        }
-        
-        .event:nth-child(odd) .event-content::after {
-            content: '';
-            position: absolute;
-            width: 15px;
-            height: 15px;
-            background: white;
-            top: 30px;
-            right: -7px;
-            transform: rotate(45deg);
-            border-right: 1px solid rgba(232, 196, 196, 0.3);
-            border-top: 1px solid rgba(232, 196, 196, 0.3);
-        }
-        
-        .event:nth-child(even) .event-content::after {
-            content: '';
-            position: absolute;
-            width: 15px;
-            height: 15px;
-            background: white;
-            top: 30px;
-            left: -7px;
-            transform: rotate(45deg);
-            border-left: 1px solid rgba(232, 196, 196, 0.3);
-            border-top: 1px solid rgba(232, 196, 196, 0.3);
-        }
-        
-        .event-date {
-            display: inline-block;
-            background: linear-gradient(135deg, var(--blush), var(--dark-blush));
-            color: white;
-            padding: 5px 15px;
-            border-radius: 20px;
-            font-size: 0.8rem;
-            margin-bottom: 15px;
-            box-shadow: 0 3px 10px rgba(179, 139, 139, 0.2);
-            font-weight: 500;
-        }
-        
-        .event-content h2 {
-            font-family: 'Playfair Display', serif;
-            color: var(--dark-blush);
-            font-size: clamp(1.2rem, 4vw, 1.6rem);
-            margin-bottom: 10px;
-            position: relative;
-            display: inline-block;
-        }
-        
-        .event-content h2::after {
-            content: '';
-            position: absolute;
-            width: 100%;
-            height: 1px;
-            background: linear-gradient(90deg, var(--blush), transparent);
-            bottom: -5px;
-            left: 0;
-        }
-        
-        .event-content p {
-            font-size: clamp(0.9rem, 3vw, 1rem);
-            line-height: 1.6;
-            color: var(--light-brown);
-            margin-bottom: 15px;
-        }
-        
-        .event-image {
-            width: 100%;
-            border-radius: 8px;
-            margin: 10px 0;
-            box-shadow: 0 3px 15px rgba(179, 139, 139, 0.1);
-            border: 1px solid rgba(232, 196, 196, 0.5);
-            transition: transform 0.3s;
-        }
-        
-        .event-image:hover {
-            transform: scale(1.03);
-        }
-        
-        .event-marker {
-            position: absolute;
-            width: 20px;
-            height: 20px;
-            background-color: var(--cream);
-            border: 3px solid var(--blush);
-            border-radius: 50%;
-            top: 30px;
-            left: 50%;
-            transform: translateX(-50%);
-            z-index: 2;
-            box-shadow: 0 0 0 4px var(--cream), 0 3px 8px rgba(0,0,0,0.1);
-        }
-        
-        /* Modal */
-        .modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(94, 74, 66, 0.9);
-            z-index: 1000;
-            justify-content: center;
-            align-items: center;
-            backdrop-filter: blur(5px);
-            opacity: 0;
-            transition: opacity 0.3s;
-        }
-        
-        .modal.active {
-            display: flex;
-            opacity: 1;
-        }
-        
-        .modal-content {
-            background: white;
-            padding: 30px;
-            border-radius: 15px;
-            width: 90%;
-            max-width: 600px;
-            max-height: 85vh;
-            overflow-y: auto;
-            box-shadow: 0 15px 40px rgba(94, 74, 66, 0.4);
-            position: relative;
-            border: 1px solid var(--blush);
-            transform: scale(0.9);
-            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-        }
-        
-        .modal.active .modal-content {
-            transform: scale(1);
-        }
-        
-        .modal-content::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 8px;
-            background: linear-gradient(90deg, var(--blush), var(--dark-blush), var(--blush));
-            border-radius: 15px 15px 0 0;
-        }
-        
-        .close {
-            position: absolute;
-            top: 15px;
-            right: 20px;
-            font-size: 28px;
-            color: var(--dark-blush);
-            cursor: pointer;
-            transition: all 0.3s;
-            z-index: 2;
-        }
-        
-        .close:hover {
-            transform: rotate(90deg);
-            color: var(--brown);
-        }
-        
-        #modal-title {
-            font-family: 'Playfair Display', serif;
-            color: var(--dark-blush);
-            font-size: clamp(1.5rem, 5vw, 2rem);
-            margin: 20px 0 15px;
-            padding-bottom: 10px;
-            border-bottom: 1px solid var(--blush);
-        }
-        
-        #modal-text {
-            font-size: clamp(1rem, 3vw, 1.1rem);
-            line-height: 1.7;
-            color: var(--brown);
-            margin: 20px 0;
-        }
-        
-        #modal-image {
-            width: 100%;
-            border-radius: 8px;
-            margin: 20px 0;
-            box-shadow: 0 5px 20px rgba(179, 139, 139, 0.2);
-            border: 1px solid rgba(232, 196, 196, 0.7);
-        }
-        
-        /* Decoraciones */
-        .floral {
-            position: absolute;
-            font-size: 80px;
-            color: rgba(179, 139, 139, 0.1);
-            z-index: -1;
-            pointer-events: none;
-        }
-        
-        .floral-1 {
-            top: 10%;
-            left: 5%;
-            transform: rotate(-15deg);
-        }
-        
-        .floral-2 {
-            bottom: 10%;
-            right: 5%;
-            transform: rotate(25deg);
-        }
-        
-        /* Animaciones */
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-        
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
-        
-        /* Responsive */
-        @media (max-width: 768px) {
-            .timeline::before {
-                left: 31px;
-            }
-            
-            .event {
-                padding-left: 70px !important;
-                padding-right: 20px !important;
-                text-align: left !important;
-            }
-            
-            .event:nth-child(odd) .event-content::after,
-            .event:nth-child(even) .event-content::after {
-                left: -7px !important;
-                right: auto !important;
-                border-left: 1px solid rgba(232, 196, 196, 0.3) !important;
-                border-top: 1px solid rgba(232, 196, 196, 0.3) !important;
-                border-right: none !important;
-            }
-            
-            .event-marker {
-                left: 31px;
-            }
-            
-            .modal-content {
-                width: 95%;
-                padding: 20px;
-            }
-        }
-        
-        @media (max-width: 480px) {
-            .header {
-                padding: 30px 15px;
-            }
-            
-            .event-content {
-                padding: 20px;
-            }
-            
-            .event-date {
-                font-size: 0.7rem;
-                padding: 4px 12px;
-            }
-        }
-    </style>
 </head>
 <body>
-    <div class="header">
-        <h1>Como me enamore mas de ti</h1>
-        <p class="subtitle">La misma historia de siempre contada de otra forma</p>
-    </div>
-    
-    <div class="floral floral-1">✿</div>
-    <div class="floral floral-2">✿</div>
-    
-    <div class="timeline">
-        <!-- Evento 1 -->
-        <div class="event" onclick="openModal('Nuestro Primer Encuentro despues de volver a encontrarnos', 'Fue en aquella vez cuando estaba jugando en la noche pero ya tenia rato de volver hablar contigo despues de que salieras de vacaciones, en ese momento me empezo a gustar mas tu forma de ser y siento que en esa platica que tuvimos cuando te enseñe el salon de fiesta fue el inicio donde decidi querer algo contigo si o si.', 'img/1.jpg')">
-            <div class="event-marker"></div>
-            <div class="event-content">
-                <span class="event-date">23 de junio del 2024</span>
-                <h2>Primer Encuentro despues de volver a encontrarnos</h2>
-                <p>Cuando nuestras destinos se volvieron a juntar</p>
-                <img src="img/1.jpg" alt="Cafetería" class="event-image">
+    <div class="hearts"></div>
+    <div class="overlay"></div>
+
+    <div class="container">
+        <header class="header animate__animated animate__fadeInDown">
+            <h1 class="title">Nuestra Historia de Amor</h1>
+            <p class="subtitle">Desde el 20 de Octubre de 2024</p>
+        </header>
+
+        <div class="contador-container animate__animated animate__fadeIn">
+            <div class="circulo-externo">
+                <div class="circulo-interno">
+                    <span id="dias-circulo">0</span>
+                    <small>Días</small>
+                </div>
+            </div>
+            <div class="detalles-tiempo">
+                <div class="tiempo-item">
+                    <span id="horas-circulo">00</span>
+                    <small>Horas</small>
+                </div>
+                <div class="tiempo-item">
+                    <span id="minutos-circulo">00</span>
+                    <small>Minutos</small>
+                </div>
+                <div class="tiempo-item">
+                    <span id="segundos-circulo">00</span>
+                    <small>Segundos</small>
+                </div>
             </div>
         </div>
-        
-        <!-- Evento 2 -->
-        <div class="event" onclick="openModal('El Primer detalle que te hice inconsientemente', 'Fue esta captura cuando todas las noches nos la pasabamos jugando roblox, eran noches que fue poco a poco acercandonos y conociendonos mas y mas en los momentos donde nos la pasabamos hablando hasta las 5 de la mañana y me acuerdo que en ese tiempo solo te tenia en tiktok solo para juzgar tus compartidos pero no sabia que se podia mandar imagenes pero te conte que te tenia de fondo y tu me hiciste hiciste burla por tener algo de roblox de fondo.', 'img/2.jpg')">
-            <div class="event-marker"></div>
-            <div class="event-content">
-                <span class="event-date">15 de Julio del 2024</span>
-                <h2>El Primer detalle que te hice inconsientemente</h2>
-                <p>La noche que confirmé que eras mi persona favorita...</p>
-                <img src="img/2.jpg" alt="Restaurante" class="event-image">
+
+        <div class="cartas-grid animate__animated animate__fadeInUp">
+            <div class="carta" onclick="openCarta(1)">
+                <div class="carta-icon">💌</div>
+                <h3>CARTITA</h3>
+                <p>14/02/2025</p>
+                <div class="carta-brillo"></div>
             </div>
-        </div>
-        
-        <!-- Evento 3 -->
-        <div class="event" onclick="openModal('Una dificil decisión', 'Este dia fueron varias cosas que pasaron en tan poco tiempo pero fue el dia donde dude de todo y donde vi imposible tener una relacion contigo por suerte no paso eso pero bueno ese dia me senti de esa manera porque vi que te habias ido con tu nueva amiga y con isajo y de hecho fue una semana muy pesada para mi porque era verte jugar con otras personas y que aveces a mi ni me invitabas aparte sabes como soy de dramtico y por eso fue mas intenso ese sentimiento entonces fue la primera vez que dude de mi y el camino que llevario esto.', 'img/3.jpg')">
-            <div class="event-marker"></div>
-            <div class="event-content">
-                <span class="event-date">24 de julio del 2024</span>
-                <h2>Una dificil decisión</h2>
-                <p>La primera y unica vez que dude de lo que sentia</p>
-                <img src="img/3.jpg" alt="Playa" class="event-image">
+            <div class="carta" onclick="openCarta(1)">
+                <div class="carta-icon">💌</div>
+                <h3>CARTITA</h3>
+                <p>20/02/2025</p>
+                <div class="carta-brillo"></div>
             </div>
-        </div>
-        
-        <!-- Evento 4 -->
-        <div class="event" onclick="openModal('Cuando te dije que seria mi ultimo año jugando roblox', 'por que probablemente iba a trabajar y tenia que empezar con mis trabajos de residencias y te dije que te mandaria mensaje por roblox y tu me dijiste te paso mi insta para que hablemos por ahi solo alcance a ver la notificacion por que no queria entrar por que no estaba preparado para agregarte me acuerdo cuando de un mensaje muy emblematico y que quedo capturado para la historio el mitico (me gustas) me puse muy nervioso cuando vi esa historia que hasta le tome captura de otro celular por miedo a que se mandara una alerta JAJAJAJA por cierto que  hermosa eres papoi', 'img/4.jpg')">
-            <div class="event-marker"></div>
-            <div class="event-content">
-                <span class="event-date">25 de julio del 2024</span>
-                <h2>El dia que no dormi</h2>
-                <p>Aunque no lo creas ese dia de verdad no dormi</p>
-                <img src="img/4.jpg" alt="Playa" class="event-image">
-            </div>
-        </div>
-        
-        <!-- Evento 5 -->
-        <div class="event" onclick="openModal('Sus deseos son ordenes mi niña hermosa', 'Me acuerdo cuanto costo sacarte la ubiación y mas que no me la querias compartir lo bueno que ale me ayudo a converserte de que me la pasaras y mas cuando me andabas dice y dice que te gustaban muchos los ternurines foquitas por que estaban muy bonitos entonces decidi en regalartelos y se convirtieron en nuestro primeros hijos aunque los primeros meses se me olvidaron su nombre pero fue algo muy especial para ti y para mi amor', 'img/5.jpg')">
-            <div class="event-marker"></div>
-            <div class="event-content">
-                <span class="event-date">30 de octubre del 2024</span>
-                <h2>Mi regalo o detalla oficial </h2>
-                <p>Sus deseos son ordenes mi niña hermosa</p>
-                <img src="img/5.jpg" alt="Celebración" class="event-image">
-            </div>
-        </div>
-        
-        <!-- Evento 6 -->
-        <div class="event" onclick="openModal('Sporiler alert fuiste tú', 'busque por dias de verdad alguien que me vendiera flores para ti pero por mas que buscara no me contestaban pero ve el lado bueno en un comercial de yutub vio la necesidad que tenia y me ayudo para que pudiera darte este detalle que para mi era muy especial y muy significativo ya que no lo habia hecho antes y mas sabiendo que a ti te encantaban las flores aunque no fue sorpresa por que me encanta andar de boca suelta fue muy bonito para mi que las subieras  a tus historias ya que igual era la primera vez que alguien me subia asi en sus historias muchas gracias mi amorcitop.', 'img/6.jpg')">
-            <div class="event-marker"></div>
-            <div class="event-content">
-                <span class="event-date">20 de noviembre del 2024</span>
-                <h2>Mis primeras flores regalas de mi vida </h2>
-                <p>Siempre me pregutaba quien seria la persona a la que le regalaria flores...</p>
-                <img src="img/6.jpg">
-            </div>
-        </div>
-        
-        <!-- Evento 7 -->
-        <div class="event" onclick="openModal('Mi lego que mas me gusta y que lo cuido con mucho amor', 'Me encanto el detalle que me fiste mi niña y mas que me gustaba mucho  ya que estuviste investigando con tiempo lo que me gusta y buscando el detalle perfecto para mi y lo peor es que no me di cuenta que lo estabas haciendo eres muy buena sacando informacion. Pero de verdad esa llamada armando el lego me gusto mucho aunque estuvo rodeada de algunos problemas empezo esa llamad a encaminar a nuestro mejor mes de noviazgo asi que de verdad mi niña te amo mucho', 'img/7.jpg')">
-            <div class="event-marker"></div>
-            <div class="event-content">
-                <span class="event-date">30 de diciembre del 2025</span>
-                <h2>Llamada constructiva</h2>
-                <p>Muchas gracias por darle mas felicidad a mi niño interior </p>
-                <img src="img/7.jpg" alt="Concierto" class="event-image">
-            </div>
-        </div>
-        
-        <!-- Evento 8 -->
-        <div class="event" onclick="openModal('Un San Valentín Inolvidable', 'Aunque al inicio pense que me la pasario solo porque me venias diciendo que ibas a salir con tus amigas termine pasandola con mi niña hermosa asi que fue el mejor dia como para ti y como para mi fue el dia donde queria estar contigo en persona pero no se pudo pero al menos tuvimos un dia muy bonito y juntos en pareja mi amorcito y espero seguir llenando mas  recuerdos bonitos esta linea  del tiempo te amo mucho papoi ❤️', 'img/8.jpg')">
-            <div class="event-marker"></div>
-            <div class="event-content">
-                <span class="event-date">14 de febrero del 2025</span>
-                <h2>Mi primer San Valentín contigo</h2>
-                <p>y estando en una relación...</p>
-                <img src="img/8.jpg" alt="Concierto" class="event-image">
+            <div class="carta" onclick="openCarta(1)">
+                <div class="carta-icon">💌</div>
+                <h3>CARTITA</h3>
+                <p>20/5/2025</p>
+                <div class="carta-brillo"></div>
             </div>
         </div>
     </div>
-    
-    <!-- Modal -->
-    <div id="modal" class="modal">
-        <div class="modal-content">
-            <span class="close" onclick="closeModal()">&times;</span>
-            <h2 id="modal-title"></h2>
-            <p id="modal-text"></p>
-            <img id="modal-image" src="" alt="Imagen del evento">
+    <div class="nota-especial animate__animated animate__fadeIn">
+    <div class="nota-contenido">
+        <h2>Para Ti, Mi Amor</h2>
+        <div class="nota-texto">
+            <p>Querida muñequita de porcelana mi amor mi todo,</p>
+            <p>Cada día a tu lado ha sido un regalo y muchas gracias por permitirme estar contigo un dia mas . Estas cartas son solo un pequeño reflejo de todo lo que siento por ti, pero sé que ni mil palabras podrían capturar la profundidad de mi amor y  que aveces soy un tonto demostrando mi amor por ti mi niña asi que perdoname por ser un estupido JAJAJA</p>
+            <p>Hoy, en nuestros 8 meses juntos, quiero decirte gracias por las incontables oportunidades que me has dado y prometo toda mi vida apoyarte en lo que quieras sabes que cuentas conmigo como tu compañero incondicional y espero que tu y yo podemos construir nuestro sueños juntos.</p>
+            <p>Eres mi presente y mi futuro, mi razón para ser mejor cada día.</p>
+            <p>Con todo mi amor, PD: tu regalito se atraso</p>
+            <p class="firma">Tu papoi</p>
+        </div>
+        <div class="corazon-nota">💖</div>
+    </div>
+    </div>
+    <!-- Sección Kirby - Agregar después de la nota especial -->
+        <div class="seccion-kirby animate__animated animate__fadeIn">
+            <div class="kirby-contenedor">
+                <img src="kirby.gif" alt="Kirby bailando" class="kirby-gif">
+                <div class="mensaje-kirby">
+                    <h3>¿Sabes por qué me recuerdas a Kirby?</h3>
+                    <p>Porque como tú, es puro amor, alegría y muy comelon. Cada vez que lo veo, me recuerda a ti: dulce, adorable y con ese poder especial de llenar mi vida de felicidad y color rosita que tanto te gusta.</p>
+                    <p>Eres mi Kirby</p>
+                </div>
+            </div>
+        </div>
+
+<!-- Sección My Melody - Agregar después de la sección Kirby -->
+<div class="seccion-melody animate__animated animate__fadeIn">
+    <div class="melody-contenedor">
+        <div class="melody-imagen">
+            <img src="mymelody.gif" alt="My Melody adorable" class="melody-gif">
+        </div>
+        <div class="mensaje-melody">
+            <h3>Mi My Melody 💕</h3>
+            <p>Eres como My Melody en mi vida: tierna, dulce y siempre llevando alegría a mi corazón y lo fui afirmando cada vez que veias un episodio de la serie que eres tierna y con un corazon que debo de cuidar y tratar muy lindo por que tu mi my melody eres linda y delicada como la procelana ve soy poeta.</p>
+            <p>Soy la persona más afortunado por tener la oportunidad de estar contigo.</p>
+            <div class="corazones-melody">💖</div>
         </div>
     </div>
-    
-    <script>
-        // Animación de los eventos al hacer scroll
-        document.addEventListener('DOMContentLoaded', function() {
-            const events = document.querySelectorAll('.event');
-            
-            // Configuración del IntersectionObserver
-            const observer = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        entry.target.classList.add('animate');
-                        observer.unobserve(entry.target);
-                    }
-                });
-            }, {
-                threshold: 0.1,
-                rootMargin: '0px 0px -50px 0px'
-            });
-            
-            // Observar cada evento
-            events.forEach((event, index) => {
-                event.style.transitionDelay = `${index * 0.1}s`;
-                observer.observe(event);
-            });
-        });
-        
-        // Modal functions
-        function openModal(title, text, imageUrl) {
-            document.getElementById('modal-title').textContent = title;
-            document.getElementById('modal-text').textContent = text;
-            document.getElementById('modal-image').src = imageUrl;
-            document.getElementById('modal').classList.add('active');
-            document.body.style.overflow = 'hidden';
-            
-            // Efecto de vibración al abrir
-            const modalContent = document.querySelector('.modal-content');
-            modalContent.style.animation = 'none';
-            setTimeout(() => {
-                modalContent.style.animation = 'pulse 0.5s';
-            }, 10);
-        }
-        
-        function closeModal() {
-            document.getElementById('modal').classList.remove('active');
-            document.body.style.overflow = 'auto';
-        }
-        
-        // Cerrar modal al hacer clic fuera
-        window.addEventListener('click', (event) => {
-            if (event.target === document.getElementById('modal')) {
-                closeModal();
-            }
-        });
-        
-        // Cerrar con ESC
-        document.addEventListener('keydown', (event) => {
-            if (event.key === 'Escape' && document.getElementById('modal').classList.contains('active')) {
-                closeModal();
-            }
-        });
-        
-        // Efecto hover mejorado para móviles
-        document.querySelectorAll('.event-content').forEach(item => {
-            item.addEventListener('touchstart', function() {
-                this.classList.add('hover-effect');
-            });
-            
-            item.addEventListener('touchend', function() {
-                setTimeout(() => {
-                    this.classList.remove('hover-effect');
-                }, 300);
-            });
-        });
-    </script>
+</div>
+
+<!-- Sección Distancia - Agregar después de las secciones anteriores -->
+<div class="seccion-distancia animate__animated animate__fadeIn">
+    <div class="distancia-contenedor">
+        <h2>Amor sin Distancias</h2>
+        <div class="mapa-corazones">
+            <div class="ciudad ciudad-ella">
+                <div class="punto"></div>
+                <p>Juárez, Chihuahua</p>
+            </div>
+            <div class="linea-corazon"></div>
+            <div class="ciudad ciudad-yo">
+                <div class="punto"></div>
+                <p>Orizaba, Veracruz</p>
+            </div>
+        </div>
+        <div class="mensaje-distancia">
+            <p>Aunque <span class="distancia-numerica">1,457 km</span> nos separan, cada latido de mi corazón viaja hasta ti.</p>
+            <p>Nuestro amor es más fuerte que cualquier distancia, porque mientras los kilómetros se suman, nuestro cariño se multiplica.</p>
+            <div class="frase-final">"El verdadero amor no conoce distancias"</div>
+        </div>
+    </div>
+</div>
+
+    <script src="script.js"></script>
 </body>
 </html>
