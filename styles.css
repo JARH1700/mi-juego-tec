@@ -1,0 +1,720 @@
+:root {
+    --rosa-dorado: #e0b0a8;
+    --oro: #d4af37;
+    --blanco: #fff9f5;
+    --sombra: rgba(0, 0, 0, 0.1);
+    --rosa-suave: #ffb3c6;
+    --texto: #5e2b41;
+}
+
+body {
+    font-family: 'Montserrat', sans-serif;
+    background: linear-gradient(135deg, #fff9f5, #ffecef);
+    color: var(--texto);
+    margin: 0;
+    padding: 0;
+    min-height: 100vh;
+    overflow-x: hidden;
+}
+
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle at 20% 50%, rgba(255, 255, 255, 0.8), rgba(255, 230, 240, 0.5));
+    z-index: -1;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+    text-align: center;
+}
+
+.header {
+    margin-bottom: 40px;
+}
+
+.title {
+    font-family: 'Dancing Script', cursive;
+    font-size: 3.5em;
+    color: var(--oro);
+    margin: 0;
+    text-shadow: 2px 2px 4px var(--sombra);
+}
+
+.subtitle {
+    font-weight: 300;
+    font-size: 1.2em;
+    color: #8a6d6d;
+    margin-top: 10px;
+}
+
+/* Contador circular */
+.contador-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 40px 0;
+}
+
+.circulo-externo {
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    background: conic-gradient(
+        var(--rosa-dorado) 0%,
+        transparent 0%
+    );
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 0 30px rgba(212, 175, 55, 0.3);
+    margin-bottom: 30px;
+}
+
+.circulo-interno {
+    width: 180px;
+    height: 180px;
+    background: linear-gradient(145deg, #fff9f5, #ffecef);
+    border-radius: 50%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    box-shadow: inset 0 0 15px rgba(0, 0, 0, 0.05);
+}
+
+.circulo-interno span {
+    font-size: 3em;
+    font-weight: 600;
+    color: var(--oro);
+    background: linear-gradient(45deg, var(--oro), var(--rosa-dorado));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+}
+
+.circulo-interno small {
+    font-size: 1em;
+    color: #8a6d6d;
+    margin-top: 5px;
+}
+
+.detalles-tiempo {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+    width: 100%;
+}
+
+.tiempo-item {
+    background: rgba(255, 255, 255, 0.9);
+    border-radius: 15px;
+    padding: 20px;
+    min-width: 90px;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+    transition: transform 0.3s;
+}
+
+.tiempo-item:hover {
+    transform: translateY(-5px);
+}
+
+.tiempo-item span {
+    font-size: 2em;
+    font-weight: 600;
+    color: var(--rosa-dorado);
+    display: block;
+}
+
+.tiempo-item small {
+    font-size: 0.9em;
+    color: #8a6d6d;
+    display: block;
+    margin-top: 5px;
+}
+
+/* Cartas */
+.cartas-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 30px;
+    padding: 20px;
+}
+
+.carta {
+    background: linear-gradient(145deg, #ffffff, #fff5f7);
+    border-radius: 20px;
+    padding: 25px;
+    cursor: pointer;
+    transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+    position: relative;
+    overflow: hidden;
+    border: 1px solid rgba(255, 255, 255, 0.4);
+}
+
+.carta:hover {
+    transform: translateY(-10px) scale(1.03);
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
+}
+
+.carta-icon {
+    font-size: 3.5em;
+    margin-bottom: 15px;
+    color: var(--oro);
+    transition: transform 0.3s;
+}
+
+.carta:hover .carta-icon {
+    transform: scale(1.2);
+}
+
+.carta h3 {
+    font-weight: 600;
+    color: var(--texto);
+    margin: 10px 0;
+    font-size: 1.3em;
+}
+
+.carta p {
+    font-size: 0.95em;
+    color: #8a6d6d;
+}
+
+.carta-brillo {
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(255, 255, 255, 0.8), transparent 70%);
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+
+.carta:hover .carta-brillo {
+    opacity: 0.6;
+}
+
+/* Corazones flotantes */
+.hearts {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: -1;
+}
+
+.hearts::before {
+    content: "❤";
+    position: absolute;
+    color: rgba(212, 175, 55, 0.2);
+    animation: float 15s linear infinite;
+    font-size: 24px;
+}
+
+/* Animaciones */
+@keyframes float {
+    0% { transform: translateY(100vh) rotate(0deg); opacity: 0; }
+    50% { opacity: 0.7; }
+    100% { transform: translateY(-20vh) rotate(360deg); opacity: 0; }
+}
+
+@keyframes heartbeat {
+    0% { transform: scale(1); }
+    25% { transform: scale(1.05); }
+    50% { transform: scale(1); }
+    75% { transform: scale(1.05); }
+    100% { transform: scale(1); }
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .title {
+        font-size: 2.5em;
+    }
+    
+    .circulo-externo {
+        width: 180px;
+        height: 180px;
+    }
+    
+    .circulo-interno {
+        width: 160px;
+        height: 160px;
+    }
+    
+    .detalles-tiempo {
+        flex-wrap: wrap;
+    }
+    
+    .tiempo-item {
+        min-width: 80px;
+        padding: 15px;
+    }
+}
+.nota-especial {
+    max-width: 800px;
+    margin: 50px auto;
+    padding: 0 20px;
+}
+
+.nota-contenido {
+    background: linear-gradient(135deg, #fff9f5, #ffecef);
+    border-radius: 20px;
+    padding: 40px;
+    position: relative;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.4);
+    overflow: hidden;
+}
+
+.nota-contenido h2 {
+    font-family: 'Dancing Script', cursive;
+    font-size: 2.5em;
+    color: var(--oro);
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.nota-texto {
+    font-size: 1.1em;
+    line-height: 1.8;
+    color: #5e2b41;
+    position: relative;
+    z-index: 1;
+}
+
+.nota-texto p {
+    margin-bottom: 15px;
+}
+
+.firma {
+    font-family: 'Dancing Script', cursive;
+    font-size: 1.5em;
+    text-align: right;
+    margin-top: 30px;
+    color: var(--rosa-dorado);
+}
+
+.corazon-nota {
+    position: absolute;
+    right: 30px;
+    bottom: 30px;
+    font-size: 3em;
+    opacity: 0.1;
+    z-index: 0;
+    animation: heartbeat 1.5s infinite;
+}
+
+/* Efecto de papel antiguo */
+.nota-contenido::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: url('https://www.transparenttextures.com/patterns/cream-paper.png');
+    opacity: 0.3;
+    pointer-events: none;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .nota-contenido {
+        padding: 30px 20px;
+    }
+    
+    .nota-contenido h2 {
+        font-size: 2em;
+    }
+    
+    .nota-texto {
+        font-size: 1em;
+    }
+}
+/* Sección Kirby */
+.seccion-kirby {
+    max-width: 800px;
+    margin: 40px auto;
+    padding: 0 20px;
+}
+
+.kirby-contenedor {
+    background: rgba(255, 255, 255, 0.8);
+    backdrop-filter: blur(5px);
+    border-radius: 20px;
+    padding: 30px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    box-shadow: 0 8px 25px rgba(255, 182, 193, 0.3);
+    border: 2px solid rgba(255, 255, 255, 0.5);
+}
+
+.kirby-gif {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-bottom: 20px;
+    box-shadow: 0 0 20px rgba(255, 105, 180, 0.4);
+    transition: transform 0.3s;
+}
+
+.kirby-gif:hover {
+    transform: scale(1.1) rotate(5deg);
+}
+
+.mensaje-kirby {
+    text-align: center;
+}
+
+.mensaje-kirby h3 {
+    font-family: 'Dancing Script', cursive;
+    font-size: 1.8em;
+    color: #ff6b8b;
+    margin-bottom: 15px;
+}
+
+.mensaje-kirby p {
+    font-size: 1.1em;
+    line-height: 1.6;
+    color: #5e2b41;
+    margin-bottom: 10px;
+}
+
+/* Efecto de corazones alrededor */
+.kirby-contenedor::before {
+    content: "❤";
+    position: absolute;
+    color: rgba(255, 107, 139, 0.3);
+    font-size: 20px;
+    animation: float 6s linear infinite;
+}
+
+.kirby-contenedor::after {
+    content: "❤";
+    position: absolute;
+    color: rgba(255, 107, 139, 0.3);
+    font-size: 24px;
+    animation: float 8s linear infinite reverse;
+    animation-delay: 2s;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .kirby-contenedor {
+        padding: 20px;
+    }
+    
+    .kirby-gif {
+        width: 120px;
+        height: 120px;
+    }
+    
+    .mensaje-kirby h3 {
+        font-size: 1.5em;
+    }
+}
+/* Sección My Melody */
+.seccion-melody {
+    max-width: 800px;
+    margin: 60px auto 40px;
+    padding: 0 20px;
+}
+
+.melody-contenedor {
+    background: rgb(255 255 255 / 90%);
+    border-radius: 25px;
+    padding: 30px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 10px 30px rgba(255, 182, 193, 0.4);
+    border: 2px solid rgba(255, 230, 240, 0.7);
+    position: relative;
+    overflow: hidden;
+}
+
+.melody-imagen {
+    flex: 1;
+    min-width: 250px;
+    text-align: center;
+    padding: 20px;
+}
+
+.melody-gif {
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    object-fit: cover;
+    box-shadow: 0 0 25px rgba(255, 105, 180, 0.3);
+    transition: all 0.3s ease;
+}
+
+.melody-gif:hover {
+    transform: scale(1.05) rotate(-5deg);
+    box-shadow: 0 0 35px rgba(255, 105, 180, 0.5);
+}
+
+.mensaje-melody {
+    flex: 2;
+    min-width: 300px;
+    padding: 20px;
+    position: relative;
+}
+
+.mensaje-melody h3 {
+    font-family: 'Dancing Script', cursive;
+    font-size: 2.2em;
+    color: #ff85a2;
+    margin-bottom: 20px;
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.mensaje-melody p {
+    font-size: 1.1em;
+    line-height: 1.7;
+    color: #7a5c5c;
+    margin-bottom: 15px;
+}
+
+.corazones-melody {
+    font-size: 1.5em;
+    color: #ff85a2;
+    text-align: center;
+    margin-top: 25px;
+    animation: pulse 2s infinite;
+}
+
+/* Efectos decorativos */
+.melody-contenedor::before {
+    content: "";
+    position: absolute;
+    top: -50px;
+    right: -50px;
+    width: 150px;
+    height: 150px;
+    background-size: contain;
+    opacity: 0.1;
+    transform: rotate(15deg);
+}
+
+/* Animaciones */
+@keyframes pulse {
+    0% { transform: scale(1); opacity: 0.8; }
+    50% { transform: scale(1.05); opacity: 1; }
+    100% { transform: scale(1); opacity: 0.8; }
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .melody-contenedor {
+        flex-direction: column;
+        padding: 20px;
+    }
+    
+    .melody-imagen, .mensaje-melody {
+        min-width: 100%;
+    }
+    
+    .melody-gif {
+        width: 150px;
+        height: 150px;
+    }
+    
+    .mensaje-melody h3 {
+        font-size: 1.8em;
+        text-align: center;
+    }
+}
+/* Sección Distancia */
+.seccion-distancia {
+    max-width: 900px;
+    margin: 60px auto;
+    padding: 0 20px;
+}
+
+.distancia-contenedor {
+    background: rgba(255, 245, 250, 0.9);
+    border-radius: 25px;
+    padding: 40px 30px;
+    box-shadow: 0 10px 30px rgba(255, 182, 193, 0.3);
+    border: 2px solid rgba(255, 255, 255, 0.6);
+    text-align: center;
+}
+
+.distancia-contenedor h2 {
+    font-family: 'Dancing Script', cursive;
+    font-size: 2.5em;
+    color: #e75480;
+    margin-bottom: 30px;
+}
+
+.mapa-corazones {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: relative;
+    margin: 40px 0;
+    padding: 0 20px;
+}
+
+.ciudad {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    z-index: 2;
+}
+
+.punto {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    margin-bottom: 10px;
+}
+
+.ciudad-ella .punto {
+    background: #ff85a2;
+    box-shadow: 0 0 15px rgba(255, 133, 162, 0.6);
+}
+
+.ciudad-yo .punto {
+    background: #a2d2ff;
+    box-shadow: 0 0 15px rgba(162, 210, 255, 0.6);
+}
+
+.ciudad p {
+    font-weight: 600;
+    color: #5e2b41;
+    background: rgba(255, 255, 255, 0.8);
+    padding: 5px 15px;
+    border-radius: 20px;
+}
+
+.linea-corazon {
+    position: absolute;
+    width: 80%;
+    height: 3px;
+    background: linear-gradient(90deg, #ff85a2, #a2d2ff);
+    left: 10%;
+    top: 15px;
+    z-index: 1;
+}
+
+.linea-corazon::before {
+    content: "❤";
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 24px;
+    color: #e75480;
+    background: white;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    animation: heartbeat 1.5s infinite;
+}
+
+.mensaje-distancia {
+    max-width: 600px;
+    margin: 0 auto;
+    font-size: 1.1em;
+    line-height: 1.8;
+    color: #5e2b41;
+}
+
+.distancia-numerica {
+    font-weight: 700;
+    color: #e75480;
+    font-size: 1.2em;
+}
+
+.frase-final {
+    font-family: 'Dancing Script', cursive;
+    font-size: 1.5em;
+    color: #e75480;
+    margin-top: 25px;
+    padding-top: 15px;
+    border-top: 1px dashed #ffb6c1;
+}
+
+/* Animaciones */
+@keyframes heartbeat {
+    0% { transform: translate(-50%, -50%) scale(1); }
+    25% { transform: translate(-50%, -50%) scale(1.1); }
+    50% { transform: translate(-50%, -50%) scale(1); }
+    75% { transform: translate(-50%, -50%) scale(1.1); }
+    100% { transform: translate(-50%, -50%) scale(1); }
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .mapa-corazones {
+        flex-direction: column;
+        height: 300px; /* Altura fija para contener la línea vertical */
+        margin: 40px 0;
+    }
+    
+    .linea-corazon {
+        width: 3px;
+        height: 220px; /* Ajusta según necesites */
+        left: 50%;
+        top: 50px;
+        background: linear-gradient(to bottom, #ff85a2, #a2d2ff);
+    }
+    
+    .linea-corazon::before {
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+    }
+    
+    .ciudad {
+        margin: 37px 0;
+        position: relative;
+    }
+    
+    .ciudad-ella {
+        order: 1;
+    }
+    
+    .ciudad-yo {
+        order: 3;
+    }
+    
+    .linea-corazon {
+        order: 2;
+    }
+}
+
+/* Versión extra para pantallas muy pequeñas */
+@media (max-width: 480px) {
+    .mapa-corazones {
+        height: 250px;
+    }
+    
+    .linea-corazon {
+        height: 180px;
+    }
+    
+    .ciudad p {
+        font-size: 0.9em;
+        padding: 3px 10px;
+    }
+}
